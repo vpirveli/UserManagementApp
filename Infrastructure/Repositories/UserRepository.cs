@@ -1,15 +1,43 @@
-﻿namespace Infrastructure.Repositories
+﻿using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Repositories
 {
     internal class UserRepository : IUserRepository
     {
-        public Task<IEnumerable<User>> GetAllAsync()
+
+        private readonly UserDbContext _userDbContext;
+        public UserRepository(UserDbContext userDbContext)
         {
-            throw new NotImplementedException();
+            _userDbContext = userDbContext;
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public async Task CreateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            await _userDbContext.Users.AddAsync(user);
+            await _userDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserByIdAsync(Guid id)
+        {
+             _userDbContext.Remove(id);
+            await _userDbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            return await _userDbContext.Users.ToListAsync();
+        }
+
+        public async Task<User?> GetByIdAsync(Guid id)
+        {
+            return await _userDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            _userDbContext.Users.Update(user);
+            await _userDbContext.SaveChangesAsync();
         }
     }
 }

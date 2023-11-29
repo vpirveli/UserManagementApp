@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.DTOs;
+using Application.Entities.UserEntity.Commands;
+using Application.Entities.UserEntity.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +12,46 @@ namespace API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IMediator _mediator;
+
+        public UserController(IMediator Mediator)
         {
-            return new string[] { "value1", "value2" };
+            _mediator = Mediator;
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/<UserController>
+        [HttpGet]
+        public async Task<UserDTO> GetUserById([FromQuery] GetUserByIdQuery query)
         {
-            return "value";
+            return await _mediator.Send(query);
+        }
+
+        // GET: api/<UserController/all>
+        [HttpGet("api/[controller]/all")]
+        public async Task<IEnumerable<UserDTO>> GetAllUsers([FromQuery] GetUsersQuery query)
+        {
+            return await _mediator.Send(query);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async void CreateUser(CreateUserCommand userCommand)
         {
+            await _mediator.Send(userCommand);
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async void Put(UpdateUserCommand updateUser)
         {
+            await _mediator.Send(updateUser);
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public async void Delete(DeleteUserByIdCommand deleteUserByIdCommand)
         {
+            await _mediator.Send(deleteUserByIdCommand);
         }
     }
 }

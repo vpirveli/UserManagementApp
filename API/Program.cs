@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.OpenApi;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Application;
+using Infrastructure;
+using System.Reflection;
 
 namespace API
 {
@@ -15,6 +16,10 @@ namespace API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //Dependency Injection
+            builder.Services.AddApplication()
+                            .AddInfrastructure(builder.Configuration);
 
             var app = builder.Build();
 
