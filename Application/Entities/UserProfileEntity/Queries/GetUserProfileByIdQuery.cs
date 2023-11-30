@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Entities.UserEntity.Queries
+namespace Application.Entities.UserProfileEntity.Queries
 {
-    public class GetUserQuery : IRequest<IEnumerable<UserDTO>>
+    public class GetUserProfileByIdQuery : IRequest<UserProfileDTO>
     {
+        public int Id { get; set; }
     }
 }

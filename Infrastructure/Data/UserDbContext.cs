@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Utilities;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -15,30 +16,22 @@ namespace Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("User");
+            modelBuilder.Entity<User>()
+                .ToTable("User");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-                entity.Property(e => e.Email).HasMaxLength(50);
-                entity.Property(e => e.Password).HasMaxLength(50);
-                entity.Property(e => e.UserName).HasMaxLength(50);
+            modelBuilder.Entity<UserProfile>()
+                .ToTable("UserProfile");
 
-                entity.HasOne(d => d.IdNavigation).WithOne(p => p.User)
-                    .HasForeignKey<User>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_UserProfile");
-            });
+            modelBuilder.Entity<User>().HasIndex(x=>x.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(x=>x.UserName).IsUnique();
+            
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.UserProfile)
+                .WithOne(up => up.User)
+                .HasForeignKey<UserProfile>(up => up.Id);
 
-            modelBuilder.Entity<UserProfile>(entity =>
-            {
-                entity.ToTable("UserProfile");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-                entity.Property(e => e.FirstName).HasMaxLength(50);
-                entity.Property(e => e.LastName).HasMaxLength(50);
-                entity.Property(e => e.PersonalNumber).HasMaxLength(11);
-            });
+            modelBuilder.Entity<User>().HasData(new User() { Id = 1, UserName = "admin", Password="password".ComputeMD5Hash(), Email ="email@email.com", IsActive = true});
+            modelBuilder.Entity<UserProfile>().HasData(new UserProfile() { Id = 1, FirstName = "Admin", LastName="Adminashvili", PersonalNumber = "000000000000" });
 
             OnModelCreatingPartial(modelBuilder);
         }

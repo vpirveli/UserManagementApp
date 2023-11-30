@@ -11,6 +11,6 @@ namespace Application.Entities.UserEntity.Queries
 {
     public class GetUserByIdQuery : IRequest<UserDTO>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }

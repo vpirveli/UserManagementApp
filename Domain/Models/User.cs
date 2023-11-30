@@ -2,7 +2,7 @@
 {
     public partial class User
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string UserName { get; set; } = null!;
 
@@ -12,6 +12,6 @@
 
         public bool IsActive { get; set; }
 
-        public virtual UserProfile IdNavigation { get; set; } = null!;
+        public virtual UserProfile UserProfile { get; set; } = null!;
     }
 }

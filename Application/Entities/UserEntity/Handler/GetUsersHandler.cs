@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace Application.Entities.UserEntity.Handler
 {
-    internal class GetUsersHandler : IRequestHandler<GetUsersQuery, IEnumerable<UserDTO>>
+    internal class GetUserHandler : IRequestHandler<GetUserQuery, IEnumerable<UserDTO>>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUsersHandler(IUserRepository userRepository)
+        public GetUserHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<UserDTO>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserDTO>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<User> users = await _userRepository.GetAllAsync();
             List<UserDTO> dtos = new List<UserDTO>();

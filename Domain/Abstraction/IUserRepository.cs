@@ -4,10 +4,10 @@ namespace Domain.Abstraction
 {
     public interface IUserRepository
     {
-        Task<User?> GetByIdAsync(Guid id);
+        Task<User?> GetByIdAsync(int id);
         Task<IEnumerable<User>> GetAllAsync();
         Task CreateUserAsync(User user);
         Task UpdateUserAsync(User user);
-        Task DeleteUserByIdAsync(Guid id);
+        Task DeleteUserAsync(User user);
     }
 }

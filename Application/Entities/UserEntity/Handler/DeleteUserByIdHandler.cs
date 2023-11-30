@@ -21,7 +21,11 @@ namespace Application.Entities.UserEntity.Handler
 
         public async Task Handle(DeleteUserByIdCommand request, CancellationToken cancellationToken)
         {
-            await _userRepository.DeleteUserByIdAsync(request.Id);
+            User? user = await _userRepository.GetByIdAsync(request.Id);
+            if (user is not null) 
+            {
+                await _userRepository.DeleteUserAsync(user);
+            }
         }
     }
 }

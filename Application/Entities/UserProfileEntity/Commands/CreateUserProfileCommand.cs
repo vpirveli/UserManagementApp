@@ -1,18 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MediatR;
 
-namespace Domain.Models
+namespace Application.Entities.UserProfileEntity.Commands
 {
-    public partial class UserProfile
+    public class CreateUserProfileCommand : IRequest
     {
-        [ForeignKey("User")]
         public int Id { get; set; }
-
         public string FirstName { get; set; } = null!;
 
         public string LastName { get; set; } = null!;
 
         public string PersonalNumber { get; set; } = null!;
 
-        public virtual User? User { get; set; }
     }
 }

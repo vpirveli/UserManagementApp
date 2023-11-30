@@ -18,9 +18,10 @@ namespace Infrastructure.Repositories
             await _userDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteUserByIdAsync(Guid id)
+        public async Task DeleteUserAsync(User user)
         {
-             _userDbContext.Remove(id);
+
+             _userDbContext.Remove(user);
             await _userDbContext.SaveChangesAsync();
         }
 
@@ -29,7 +30,7 @@ namespace Infrastructure.Repositories
             return await _userDbContext.Users.ToListAsync();
         }
 
-        public async Task<User?> GetByIdAsync(Guid id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             return await _userDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
