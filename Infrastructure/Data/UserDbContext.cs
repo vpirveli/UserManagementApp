@@ -24,6 +24,7 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<User>().HasIndex(x=>x.Email).IsUnique();
             modelBuilder.Entity<User>().HasIndex(x=>x.UserName).IsUnique();
+            modelBuilder.Entity<UserProfile>().HasIndex(x => x.PersonalNumber).IsUnique();
             
             modelBuilder.Entity<User>()
                 .HasOne(u => u.UserProfile)
