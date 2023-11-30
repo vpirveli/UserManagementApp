@@ -15,7 +15,7 @@ namespace Application.Entities.IdentityEntity.Handler
 {
     public class AuthenticateHandler
     {
-        private readonly UserDbContext _userDbContext; // Replace with your actual DbContext type
+        private readonly UserDbContext _userDbContext;
 
         public AuthenticateHandler(UserDbContext context)
         {
@@ -31,7 +31,7 @@ namespace Application.Entities.IdentityEntity.Handler
                 throw new ArgumentException("Username or password is incorrect");
             }
 
-            var token = GenerateJwtToken(user); // Assuming you have this method implemented
+            var token = GenerateJwtToken(user);
             return token;
         }
 
