@@ -11,28 +11,26 @@ using MediatR;
 using Application.Entities.IdentityEntity.Handler;
 
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class IdentityController(AuthenticateHandler AuthenticateHandler) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class IdentityController(AuthenticateHandler AuthenticateHandler) : ControllerBase
+    private readonly AuthenticateHandler _authenticateHandler = AuthenticateHandler;
+
+    [HttpPost("authenticate")]
+    public ActionResult<string> Authenticate([FromBody] LoginModel model)
     {
-        private readonly AuthenticateHandler _authenticateHandler = AuthenticateHandler;
-
-        [HttpPost("authenticate")]
-        public ActionResult<string> Authenticate([FromBody] LoginModel model)
+        try
         {
-            try
-            {
-                var token = _authenticateHandler.Authenticate(model);
-                return Ok(token);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var token = _authenticateHandler.Authenticate(model);
+            return Ok(token);
         }
-
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
 }

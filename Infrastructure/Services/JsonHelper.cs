@@ -1,40 +1,34 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+internal class JsonHelper : IJsonHelper
 {
-    internal class JsonHelper : IJsonHelper
+    public async Task<IEnumerable<Comment?>> GetCommentsByPostIdAsync(int postId)
     {
-        public async Task<IEnumerable<Comment?>> GetCommentsByPostIdAsync(int postId)
-        {
-            using var httpClient = new HttpClient();
+        using var httpClient = new HttpClient();
 
-            using var commentResponse = await httpClient.GetAsync("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments/");
+        using var commentResponse = await httpClient.GetAsync("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments/");
 
-            commentResponse.EnsureSuccessStatusCode();
+        commentResponse.EnsureSuccessStatusCode();
 
-            var json = await commentResponse.Content.ReadAsStringAsync();
-            IEnumerable<Comment> comments = JsonConvert.DeserializeObject<IEnumerable<Comment>>(json);
+        var json = await commentResponse.Content.ReadAsStringAsync();
+        IEnumerable<Comment> comments = JsonConvert.DeserializeObject<IEnumerable<Comment>>(json);
 
-            return comments;
-        }
+        return comments;
+    }
 
-        public async Task<IEnumerable<Photo?>> GetPhotosByAlbumIdAsync(int postId)
-        {
-            using var httpClient = new HttpClient();
+    public async Task<IEnumerable<Photo?>> GetPhotosByAlbumIdAsync(int postId)
+    {
+        using var httpClient = new HttpClient();
 
-            using var photoResponse = await httpClient.GetAsync("https://jsonplaceholder.typicode.com/albums/" + postId + "/photos/");
+        using var photoResponse = await httpClient.GetAsync("https://jsonplaceholder.typicode.com/albums/" + postId + "/photos/");
 
-            photoResponse.EnsureSuccessStatusCode();
+        photoResponse.EnsureSuccessStatusCode();
 
-            var json = await photoResponse.Content.ReadAsStringAsync();
-            IEnumerable<Photo> photos = JsonConvert.DeserializeObject<IEnumerable<Photo>>(json);
+        var json = await photoResponse.Content.ReadAsStringAsync();
+        IEnumerable<Photo> photos = JsonConvert.DeserializeObject<IEnumerable<Photo>>(json);
 
-            return photos;
-        }
+        return photos;
     }
 }

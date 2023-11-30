@@ -1,32 +1,25 @@
-﻿using Application.Entities.UserEntity.Commands;
-using Application.Entities.UserProfileEntity.Commands;
+﻿using Application.Entities.UserProfileEntity.Commands;
 using Domain.Abstraction;
 using Domain.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Entities.UserProfileEntity.Handler
+namespace Application.Entities.UserProfileEntity.Handler;
+
+internal class DeleteUserProfileByIdHandler : IRequestHandler<DeleteUserProfileByIdCommand>
 {
-    internal class DeleteUserProfileByIdHandler : IRequestHandler<DeleteUserProfileByIdCommand>
+    private readonly IUserProfileRepository _userProfileRepository;
+
+    public DeleteUserProfileByIdHandler(IUserProfileRepository userProfileRepository)
     {
-        private readonly IUserProfileRepository _userProfileRepository;
+        _userProfileRepository = userProfileRepository;
+    }
 
-        public DeleteUserProfileByIdHandler(IUserProfileRepository userProfileRepository)
+    public async Task Handle(DeleteUserProfileByIdCommand request, CancellationToken cancellationToken)
+    {
+        UserProfile? userProfile = await _userProfileRepository.GetByIdAsync(request.Id);
+        if (userProfile is not null)
         {
-            _userProfileRepository = userProfileRepository;
-        }
-
-        public async Task Handle(DeleteUserProfileByIdCommand request, CancellationToken cancellationToken)
-        {
-            UserProfile? userProfile = await _userProfileRepository.GetByIdAsync(request.Id);
-            if (userProfile is not null) 
-            {
-                await _userProfileRepository.DeleteUserAsync(userProfile);
-            }
+            await _userProfileRepository.DeleteUserAsync(userProfile);
         }
     }
 }

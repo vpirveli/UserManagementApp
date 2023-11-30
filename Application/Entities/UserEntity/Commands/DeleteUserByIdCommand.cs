@@ -1,14 +1,8 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Entities.UserEntity.Commands
+namespace Application.Entities.UserEntity.Commands;
+
+public class DeleteUserByIdCommand : IRequest
 {
-    public class DeleteUserByIdCommand : IRequest
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

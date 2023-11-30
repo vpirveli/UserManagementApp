@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Models;
 
-namespace Domain.Models
+public class Post
 {
-    public class Post
-    {
-        public int UserId { get; set; }
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public IEnumerable<Comment> Comments { get; set; } = Enumerable.Empty<Comment>();
-    }
-
+    public int UserId { get; set; }
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Body { get; set; }
+    public IEnumerable<Comment> Comments { get; set; } = Enumerable.Empty<Comment>();
 }
